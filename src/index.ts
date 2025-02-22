@@ -3,9 +3,14 @@ import bodyParser from 'body-parser';
 import movieController from './controllers/movieController';
 import theaterController from './controllers/theaterController';
 import reservationController from './controllers/reservationController';
+import sequelize from './config/dbConfig';
 
 const app = express();
 app.use(bodyParser.json());
+
+sequelize.authenticate()
+  .then(() => console.log('Database connected'))
+  .catch(err => console.error('Failed to connect to database', err));
 
 app.use('/api', movieController);
 app.use('/api', theaterController);
