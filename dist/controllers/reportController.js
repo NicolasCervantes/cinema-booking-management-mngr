@@ -25,7 +25,7 @@ router.get('/by-showtime/:showtimeId', (req, res) => __awaiter(void 0, void 0, v
             include: [
                 {
                     model: seatModel_1.default,
-                    attributes: ['number'],
+                    attributes: ['id', 'number'], // Incluir id y number
                 },
             ],
             attributes: ['id', 'name', 'email', 'createdAt', 'seatId'],
@@ -35,7 +35,7 @@ router.get('/by-showtime/:showtimeId', (req, res) => __awaiter(void 0, void 0, v
             name: reservation.name,
             email: reservation.email,
             createdAt: reservation.createdAt,
-            seatNumber: reservation.seatId,
+            seatNumber: reservation.Seat ? reservation.Seat.number : 'N/A', // Incluir el número de asiento
         }));
         res.json(reportData);
     }

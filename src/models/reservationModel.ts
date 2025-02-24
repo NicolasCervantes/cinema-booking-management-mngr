@@ -1,6 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from '../config/dbConfig';
-import Showtime from './showtimeModel';
 import Seat from './seatModel';
 
 class Reservation extends Model {
@@ -9,7 +8,8 @@ class Reservation extends Model {
   public email!: string;
   public showtimeId!: number;
   public seatId!: number;
-  public createdAt!: Date; // Asegúrate de que el campo createdAt esté definido
+  public createdAt!: Date;
+  public Seat?: { id: number; number: string }; // Incluir la propiedad Seat
 }
 
 Reservation.init({
@@ -28,17 +28,11 @@ Reservation.init({
   },
   showtimeId: {
     type: DataTypes.INTEGER,
-    references: {
-      model: Showtime,
-      key: 'id',
-    },
+    allowNull: false,
   },
   seatId: {
     type: DataTypes.INTEGER,
-    references: {
-      model: Seat,
-      key: 'id',
-    },
+    allowNull: false,
   },
   createdAt: {
     type: DataTypes.DATE,
@@ -47,7 +41,7 @@ Reservation.init({
 }, {
   sequelize,
   modelName: 'Reservation',
-  timestamps: true, // Asegúrate de que los timestamps estén habilitados
+  timestamps: true,
 });
 
 export default Reservation;

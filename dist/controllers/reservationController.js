@@ -19,16 +19,19 @@ const awsConfig_1 = require("../config/awsConfig");
 const router = (0, express_1.Router)();
 router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { name, email, seats } = req.body;
-        if (!name || !email || !seats || !seats.length) {
-            return res.status(400).json({ error: 'Name, email, and seats are required' });
+        const { name, email, showtimeId, seatIds } = req.body;
+        if (!name || !email || !showtimeId || !seatIds || !seatIds.length) {
+            return res.status(400).json({ error: 'Name, email, showtimeId, and seatIds are required' });
         }
-        // Crear la reservación
-        const reservation = yield reservationModel_1.default.create({ name, email });
+        const reservations = [];
+        for (const seatId of seatIds) {
+            const reservation = yield reservationModel_1.default.create({ name, email, showtimeId, seatId });
+            reservations.push(reservation);
+        }
         // Actualizar el estado de las sillas a no disponibles
         yield seatModel_1.default.update({ isAvailable: false }, {
             where: {
-                id: seats
+                id: seatIds
             }
         });
         // Enviar correo electrónico de confirmación
@@ -38,7 +41,7 @@ router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             },
             Message: {
                 Body: {
-                    Text: { Data: `Dear ${name},\n\nYour reservation is complete. Your seats are: ${seats.join(', ')}.\n\nThank you for choosing our service!` },
+                    Text: { Data: `Dear ${name},\n\nYour reservation is complete. Your seats are: ${seatIds.join(', ')}.\n\nThank you for choosing our service!` },
                 },
                 Subject: { Data: 'Reservation Confirmed' },
             },
@@ -52,7 +55,7 @@ router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 console.log('Email sent:', data);
             }
         });
-        res.status(201).json(reservation);
+        res.status(201).json(reservations);
     }
     catch (error) {
         console.error('Error creating reservation:', error);

@@ -14,7 +14,7 @@ router.get('/by-showtime/:showtimeId', async (req, res) => {
       include: [
         {
           model: Seat,
-          attributes: ['number'],
+          attributes: ['id', 'number'], // Incluir id y number
         },
       ],
       attributes: ['id', 'name', 'email', 'createdAt', 'seatId'],
@@ -25,7 +25,7 @@ router.get('/by-showtime/:showtimeId', async (req, res) => {
       name: reservation.name,
       email: reservation.email,
       createdAt: reservation.createdAt,
-      seatNumber: reservation.seatId,
+      seatNumber: reservation.Seat ? reservation.Seat.number : 'N/A', // Incluir el número de asiento
     }));
 
     res.json(reportData);
