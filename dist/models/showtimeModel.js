@@ -15,6 +15,10 @@ Showtime.init({
         autoIncrement: true,
         primaryKey: true,
     },
+    startTime: {
+        type: sequelize_1.DataTypes.DATE,
+        allowNull: false,
+    },
     movieId: {
         type: sequelize_1.DataTypes.INTEGER,
         references: {
@@ -28,10 +32,6 @@ Showtime.init({
             model: theaterModel_1.default,
             key: 'id',
         },
-    },
-    startTime: {
-        type: sequelize_1.DataTypes.DATE,
-        allowNull: false,
     },
 }, {
     sequelize: dbConfig_1.default,

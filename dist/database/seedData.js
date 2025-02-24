@@ -28,9 +28,12 @@ const seedTheaters = [
 const seedSeats = (theaterId) => Array.from({ length: 50 }, (_, i) => ({
     number: `Seat ${i + 1}`,
     theaterId,
+    isAvailable: true,
 }));
 const seedShowtimes = [
     { movieId: 1, theaterId: 1, startTime: new Date() },
+    { movieId: 1, theaterId: 2, startTime: new Date() },
+    { movieId: 2, theaterId: 1, startTime: new Date() },
     { movieId: 2, theaterId: 2, startTime: new Date() },
 ];
 const seedDatabase = () => __awaiter(void 0, void 0, void 0, function* () {

@@ -5,26 +5,40 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 const dbConfig_1 = __importDefault(require("../config/dbConfig"));
-const Reservation = dbConfig_1.default.define('Reservation', {
-    movieId: {
+const showtimeModel_1 = __importDefault(require("./showtimeModel"));
+const seatModel_1 = __importDefault(require("./seatModel"));
+class Reservation extends sequelize_1.Model {
+}
+Reservation.init({
+    id: {
         type: sequelize_1.DataTypes.INTEGER,
-        allowNull: false
+        autoIncrement: true,
+        primaryKey: true,
     },
-    roomId: {
-        type: sequelize_1.DataTypes.INTEGER,
-        allowNull: false
-    },
-    schedule: {
-        type: sequelize_1.DataTypes.DATE,
-        allowNull: false
-    },
-    seats: {
-        type: sequelize_1.DataTypes.JSON,
-        allowNull: false
+    name: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false,
     },
     email: {
         type: sequelize_1.DataTypes.STRING,
-        allowNull: false
-    }
+        allowNull: false,
+    },
+    showtimeId: {
+        type: sequelize_1.DataTypes.INTEGER,
+        references: {
+            model: showtimeModel_1.default,
+            key: 'id',
+        },
+    },
+    seatId: {
+        type: sequelize_1.DataTypes.INTEGER,
+        references: {
+            model: seatModel_1.default,
+            key: 'id',
+        },
+    },
+}, {
+    sequelize: dbConfig_1.default,
+    modelName: 'Reservation',
 });
 exports.default = Reservation;

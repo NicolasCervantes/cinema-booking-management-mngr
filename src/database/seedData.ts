@@ -2,7 +2,7 @@ import sequelize from '../config/dbConfig';
 import Movie from '../models/movieModel';
 import Theater from '../models/theaterModel';
 import Seat from '../models/seatModel';
-import Showtime from '../models/showtimeModel'; // Importar showtimeModel
+import Showtime from '../models/showtimeModel';
 
 const seedMovies = [
   { title: 'Inception', description: 'A mind-bending thriller', duration: 148 },
@@ -17,6 +17,7 @@ const seedTheaters = [
 const seedSeats = (theaterId: number) => Array.from({ length: 50 }, (_, i) => ({
   number: `Seat ${i + 1}`,
   theaterId,
+  isAvailable: true,
 }));
 
 const seedShowtimes = [

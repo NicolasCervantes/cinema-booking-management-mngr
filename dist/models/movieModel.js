@@ -5,7 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 const dbConfig_1 = __importDefault(require("../config/dbConfig"));
-const showtimeModel_1 = __importDefault(require("./showtimeModel"));
 class Movie extends sequelize_1.Model {
 }
 Movie.init({
@@ -30,6 +29,4 @@ Movie.init({
     sequelize: dbConfig_1.default,
     modelName: 'Movie',
 });
-Movie.hasMany(showtimeModel_1.default, { foreignKey: 'movieId' });
-showtimeModel_1.default.belongsTo(Movie, { foreignKey: 'movieId' });
 exports.default = Movie;

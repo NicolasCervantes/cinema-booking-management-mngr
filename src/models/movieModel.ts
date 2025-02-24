@@ -1,8 +1,12 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from '../config/dbConfig';
-import Showtime from './showtimeModel';
 
-class Movie extends Model {}
+class Movie extends Model {
+  public id!: number;
+  public title!: string;
+  public description!: string;
+  public duration!: number;
+}
 
 Movie.init({
   id: {
@@ -26,8 +30,5 @@ Movie.init({
   sequelize,
   modelName: 'Movie',
 });
-
-Movie.hasMany(Showtime, { foreignKey: 'movieId' });
-Showtime.belongsTo(Movie, { foreignKey: 'movieId' });
 
 export default Movie;

@@ -21,6 +21,7 @@ router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         res.json(movies);
     }
     catch (error) {
+        console.error('Error fetching movies:', error);
         res.status(500).json({ error: 'Failed to fetch movies' });
     }
 }));

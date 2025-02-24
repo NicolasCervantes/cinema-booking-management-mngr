@@ -8,6 +8,7 @@ router.get('/', async (req, res) => {
     const theaters = await Theater.findAll();
     res.json(theaters);
   } catch (error) {
+    console.error('Error fetching theaters:', error);
     res.status(500).json({ error: 'Failed to fetch theaters' });
   }
 });

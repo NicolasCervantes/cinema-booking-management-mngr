@@ -8,6 +8,8 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const movieController_1 = __importDefault(require("./controllers/movieController"));
 const theaterController_1 = __importDefault(require("./controllers/theaterController"));
 const reservationController_1 = __importDefault(require("./controllers/reservationController"));
+const showtimeController_1 = __importDefault(require("./controllers/showtimeController")); // Importar showtimeController
+const seatController_1 = __importDefault(require("./controllers/seatController")); // Importar seatController
 const dbConfig_1 = __importDefault(require("./config/dbConfig"));
 require("./models/associations"); // Importar las asociaciones
 const app = (0, express_1.default)();
@@ -38,6 +40,8 @@ dbConfig_1.default.authenticate()
 app.use('/api/movies', movieController_1.default);
 app.use('/api/theaters', theaterController_1.default);
 app.use('/api/reservations', reservationController_1.default);
+app.use('/api/showtimes', showtimeController_1.default); // Agregar la ruta para showtimes
+app.use('/api/seats', seatController_1.default); // Agregar la ruta para seats
 app.get('/', (req, res) => {
     res.send('Welcome to the Movie Reservation API');
 });

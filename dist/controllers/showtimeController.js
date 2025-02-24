@@ -13,16 +13,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const theaterModel_1 = __importDefault(require("../models/theaterModel"));
+const showtimeModel_1 = __importDefault(require("../models/showtimeModel")); // Importar showtimeModel
 const router = (0, express_1.Router)();
 router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const theaters = yield theaterModel_1.default.findAll();
-        res.json(theaters);
+        const { movieId, theaterId } = req.query;
+        const showtimes = yield showtimeModel_1.default.findAll({
+            where: {
+                movieId,
+                theaterId
+            }
+        });
+        res.json(showtimes);
     }
     catch (error) {
-        console.error('Error fetching theaters:', error);
-        res.status(500).json({ error: 'Failed to fetch theaters' });
+        console.error('Error fetching showtimes:', error);
+        res.status(500).json({ error: 'Failed to fetch showtimes' });
     }
 }));
 exports.default = router;

@@ -1,27 +1,47 @@
-import { DataTypes } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
 import sequelize from '../config/dbConfig';
+import Showtime from './showtimeModel';
+import Seat from './seatModel';
 
-const Reservation = sequelize.define('Reservation', {
-    movieId: {
-        type: DataTypes.INTEGER,
-        allowNull: false
+class Reservation extends Model {
+  public id!: number;
+  public name!: string;
+  public email!: string;
+  public showtimeId!: number;
+  public seatId!: number;
+}
+
+Reservation.init({
+  id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  showtimeId: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: Showtime,
+      key: 'id',
     },
-    roomId: {
-        type: DataTypes.INTEGER,
-        allowNull: false
+  },
+  seatId: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: Seat,
+      key: 'id',
     },
-    schedule: {
-        type: DataTypes.DATE,
-        allowNull: false
-    },
-    seats: {
-        type: DataTypes.JSON,
-        allowNull: false
-    },
-    email: {
-        type: DataTypes.STRING,
-        allowNull: false
-    }
+  },
+}, {
+  sequelize,
+  modelName: 'Reservation',
 });
 
 export default Reservation;

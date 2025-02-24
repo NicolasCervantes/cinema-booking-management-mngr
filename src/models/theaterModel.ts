@@ -1,7 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from '../config/dbConfig';
-import Seat from './seatModel';
-import Showtime from './showtimeModel';
 
 class Theater extends Model {
   public id!: number;
