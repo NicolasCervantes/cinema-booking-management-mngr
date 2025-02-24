@@ -1,9 +1,15 @@
-import { DataTypes, Model } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
 import sequelize from '../config/dbConfig';
+import Showtime from './showtimeModel';
 
 class Movie extends Model {}
 
 Movie.init({
+  id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
   title: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -20,5 +26,8 @@ Movie.init({
   sequelize,
   modelName: 'Movie',
 });
+
+Movie.hasMany(Showtime, { foreignKey: 'movieId' });
+Showtime.belongsTo(Movie, { foreignKey: 'movieId' });
 
 export default Movie;

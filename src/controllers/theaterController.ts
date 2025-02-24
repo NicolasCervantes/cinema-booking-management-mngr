@@ -1,17 +1,15 @@
-import express from 'express';
-import theaterService from '../services/theaterService';
+import { Router } from 'express';
+import Theater from '../models/theaterModel';
 
-const router = express.Router();
+const router = Router();
 
-router.post('/theaters', async (req, res) => {
-    const data = req.body;
-    const result = await theaterService.registerTheater(data);
-    res.status(201).json(result);
-});
-
-router.get('/theaters', async (req, res) => {
-    const result = await theaterService.listTheaters();
-    res.status(200).json(result);
+router.get('/', async (req, res) => {
+  try {
+    const theaters = await Theater.findAll();
+    res.json(theaters);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch theaters' });
+  }
 });
 
 export default router;

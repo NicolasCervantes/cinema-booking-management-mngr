@@ -12,16 +12,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const reservationService_1 = __importDefault(require("../services/reservationService"));
-const router = express_1.default.Router();
-router.post('/reservations', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const data = req.body;
-    const result = yield reservationService_1.default.reserveSeats(data);
-    res.status(201).json(result);
+const express_1 = require("express");
+const reservationModel_1 = __importDefault(require("../models/reservationModel"));
+const router = (0, express_1.Router)();
+router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const reservation = yield reservationModel_1.default.create(req.body);
+        res.json(reservation);
+    }
+    catch (error) {
+        res.status(500).json({ error: 'Failed to create reservation' });
+    }
 }));
-router.get('/reservations', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield reservationService_1.default.listReservations();
-    res.status(200).json(result);
+router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const reservations = yield reservationModel_1.default.findAll();
+        res.json(reservations);
+    }
+    catch (error) {
+        res.status(500).json({ error: 'Failed to fetch reservations' });
+    }
 }));
 exports.default = router;

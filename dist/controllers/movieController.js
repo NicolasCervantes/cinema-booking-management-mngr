@@ -12,16 +12,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const movieService_1 = __importDefault(require("../services/movieService"));
-const router = express_1.default.Router();
-router.post('/movies', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const data = req.body;
-    const result = yield movieService_1.default.registerMovie(data);
-    res.status(201).json(result);
-}));
-router.get('/movies', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield movieService_1.default.listMovies();
-    res.status(200).json(result);
+const express_1 = require("express");
+const movieModel_1 = __importDefault(require("../models/movieModel"));
+const router = (0, express_1.Router)();
+router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const movies = yield movieModel_1.default.findAll();
+        res.json(movies);
+    }
+    catch (error) {
+        res.status(500).json({ error: 'Failed to fetch movies' });
+    }
 }));
 exports.default = router;

@@ -12,16 +12,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const theaterService_1 = __importDefault(require("../services/theaterService"));
-const router = express_1.default.Router();
-router.post('/theaters', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const data = req.body;
-    const result = yield theaterService_1.default.registerTheater(data);
-    res.status(201).json(result);
-}));
-router.get('/theaters', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield theaterService_1.default.listTheaters();
-    res.status(200).json(result);
+const express_1 = require("express");
+const theaterModel_1 = __importDefault(require("../models/theaterModel"));
+const router = (0, express_1.Router)();
+router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const theaters = yield theaterModel_1.default.findAll();
+        res.json(theaters);
+    }
+    catch (error) {
+        res.status(500).json({ error: 'Failed to fetch theaters' });
+    }
 }));
 exports.default = router;

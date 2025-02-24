@@ -1,17 +1,24 @@
-import express from 'express';
-import reservationService from '../services/reservationService';
+import { Router } from 'express';
+import Reservation from '../models/reservationModel';
 
-const router = express.Router();
+const router = Router();
 
-router.post('/reservations', async (req, res) => {
-    const data = req.body;
-    const result = await reservationService.reserveSeats(data);
-    res.status(201).json(result);
+router.post('/', async (req, res) => {
+  try {
+    const reservation = await Reservation.create(req.body);
+    res.json(reservation);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to create reservation' });
+  }
 });
 
-router.get('/reservations', async (req, res) => {
-    const result = await reservationService.listReservations();
-    res.status(200).json(result);
+router.get('/', async (req, res) => {
+  try {
+    const reservations = await Reservation.findAll();
+    res.json(reservations);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch reservations' });
+  }
 });
 
 export default router;

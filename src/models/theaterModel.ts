@@ -1,19 +1,26 @@
-import { DataTypes, Model } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
 import sequelize from '../config/dbConfig';
+import Seat from './seatModel';
+import Showtime from './showtimeModel';
 
-class Theater extends Model {}
+class Theater extends Model {
+  public id!: number;
+  public name!: string;
+  public location!: string;
+}
 
 Theater.init({
+  id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
   name: {
     type: DataTypes.STRING,
     allowNull: false,
   },
   location: {
     type: DataTypes.STRING,
-    allowNull: false,
-  },
-  seats: {
-    type: DataTypes.ARRAY(DataTypes.STRING),
     allowNull: false,
   },
 }, {

@@ -5,24 +5,32 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 const dbConfig_1 = __importDefault(require("../config/dbConfig"));
-class Theater extends sequelize_1.Model {
+const theaterModel_1 = __importDefault(require("./theaterModel"));
+class Seat extends sequelize_1.Model {
 }
-Theater.init({
+Seat.init({
     id: {
         type: sequelize_1.DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
     },
-    name: {
+    number: {
         type: sequelize_1.DataTypes.STRING,
         allowNull: false,
     },
-    location: {
-        type: sequelize_1.DataTypes.STRING,
-        allowNull: false,
+    isAvailable: {
+        type: sequelize_1.DataTypes.BOOLEAN,
+        defaultValue: true,
+    },
+    theaterId: {
+        type: sequelize_1.DataTypes.INTEGER,
+        references: {
+            model: theaterModel_1.default,
+            key: 'id',
+        },
     },
 }, {
     sequelize: dbConfig_1.default,
-    modelName: 'Theater',
+    modelName: 'Seat',
 });
-exports.default = Theater;
+exports.default = Seat;

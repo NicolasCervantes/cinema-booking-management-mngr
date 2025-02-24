@@ -1,17 +1,15 @@
-import express from 'express';
-import movieService from '../services/movieService';
+import { Router } from 'express';
+import Movie from '../models/movieModel';
 
-const router = express.Router();
+const router = Router();
 
-router.post('/movies', async (req, res) => {
-    const data = req.body;
-    const result = await movieService.registerMovie(data);
-    res.status(201).json(result);
-});
-
-router.get('/movies', async (req, res) => {
-    const result = await movieService.listMovies();
-    res.status(200).json(result);
+router.get('/', async (req, res) => {
+  try {
+    const movies = await Movie.findAll();
+    res.json(movies);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch movies' });
+  }
 });
 
 export default router;
