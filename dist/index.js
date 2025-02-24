@@ -10,6 +10,7 @@ const theaterController_1 = __importDefault(require("./controllers/theaterContro
 const reservationController_1 = __importDefault(require("./controllers/reservationController"));
 const showtimeController_1 = __importDefault(require("./controllers/showtimeController")); // Importar showtimeController
 const seatController_1 = __importDefault(require("./controllers/seatController")); // Importar seatController
+const reportController_1 = __importDefault(require("./controllers/reportController")); // Importar reportController
 const dbConfig_1 = __importDefault(require("./config/dbConfig"));
 require("./models/associations"); // Importar las asociaciones
 const app = (0, express_1.default)();
@@ -42,6 +43,7 @@ app.use('/api/theaters', theaterController_1.default);
 app.use('/api/reservations', reservationController_1.default);
 app.use('/api/showtimes', showtimeController_1.default); // Agregar la ruta para showtimes
 app.use('/api/seats', seatController_1.default); // Agregar la ruta para seats
+app.use('/api/report', reportController_1.default); // Agregar la ruta para report
 app.get('/', (req, res) => {
     res.send('Welcome to the Movie Reservation API');
 });

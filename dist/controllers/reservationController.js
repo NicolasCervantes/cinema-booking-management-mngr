@@ -40,7 +40,7 @@ router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 Body: {
                     Text: { Data: `Dear ${name},\n\nYour reservation is complete. Your seats are: ${seats.join(', ')}.\n\nThank you for choosing our service!` },
                 },
-                Subject: { Data: 'Reservation Confirmation' },
+                Subject: { Data: 'Reservation Confirmed' },
             },
             Source: 'nicocervantes_6@hotmail.com', // Cambia esto a tu dirección de correo electrónico verificada en SES
         };

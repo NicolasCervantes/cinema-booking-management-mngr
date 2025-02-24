@@ -3,6 +3,7 @@ import Movie from '../models/movieModel';
 import Theater from '../models/theaterModel';
 import Seat from '../models/seatModel';
 import Showtime from '../models/showtimeModel';
+import Reservation from '../models/reservationModel';
 
 const seedMovies = [
   { title: 'Inception', description: 'A mind-bending thriller', duration: 148 },
@@ -27,6 +28,12 @@ const seedShowtimes = [
   { movieId: 2, theaterId: 2, startTime: new Date() },
 ];
 
+const seedReservations = [
+  { name: 'John Doe', email: 'john.doe@example.com', showtimeId: 1, seatId: 1 },
+  { name: 'Jane Smith', email: 'jane.smith@example.com', showtimeId: 1, seatId: 2 },
+  { name: 'Alice Johnson', email: 'alice.johnson@example.com', showtimeId: 2, seatId: 3 },
+];
+
 const seedDatabase = async () => {
   try {
     await sequelize.sync({ force: true });
@@ -38,7 +45,9 @@ const seedDatabase = async () => {
       await Seat.bulkCreate(seedSeats(theater.id));
     }
 
-    await Showtime.bulkCreate(seedShowtimes);
+    const showtimes = await Showtime.bulkCreate(seedShowtimes);
+
+    await Reservation.bulkCreate(seedReservations);
 
     console.log('Database seeded!');
   } catch (err) {

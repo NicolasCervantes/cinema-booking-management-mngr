@@ -13,22 +13,30 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const showtimeModel_1 = __importDefault(require("../models/showtimeModel")); // Importar showtimeModel
+const showtimeModel_1 = __importDefault(require("../models/showtimeModel"));
 const router = (0, express_1.Router)();
 router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { movieId, theaterId } = req.query;
-        const showtimes = yield showtimeModel_1.default.findAll({
-            where: {
-                movieId,
-                theaterId
-            }
-        });
+        const showtimes = yield showtimeModel_1.default.findAll();
         res.json(showtimes);
     }
     catch (error) {
         console.error('Error fetching showtimes:', error);
         res.status(500).json({ error: 'Failed to fetch showtimes' });
+    }
+}));
+// Nuevo endpoint para obtener los showtimes por teatro y película
+router.get('/by-theater-and-movie/:theaterId/:movieId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { theaterId, movieId } = req.params;
+        const showtimes = yield showtimeModel_1.default.findAll({
+            where: { theaterId, movieId },
+        });
+        res.json(showtimes);
+    }
+    catch (error) {
+        console.error('Error fetching showtimes by theater and movie:', error);
+        res.status(500).json({ error: 'Failed to fetch showtimes by theater and movie' });
     }
 }));
 exports.default = router;

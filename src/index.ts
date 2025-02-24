@@ -6,6 +6,7 @@ import theaterController from './controllers/theaterController';
 import reservationController from './controllers/reservationController';
 import showtimeController from './controllers/showtimeController'; // Importar showtimeController
 import seatController from './controllers/seatController'; // Importar seatController
+import reportController from './controllers/reportController'; // Importar reportController
 import sequelize from './config/dbConfig';
 import './models/associations'; // Importar las asociaciones
 
@@ -43,6 +44,7 @@ app.use('/api/theaters', theaterController);
 app.use('/api/reservations', reservationController);
 app.use('/api/showtimes', showtimeController); // Agregar la ruta para showtimes
 app.use('/api/seats', seatController); // Agregar la ruta para seats
+app.use('/api/report', reportController); // Agregar la ruta para report
 
 app.get('/', (req, res) => {
   res.send('Welcome to the Movie Reservation API');

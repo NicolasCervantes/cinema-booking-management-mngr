@@ -37,8 +37,13 @@ Reservation.init({
             key: 'id',
         },
     },
+    createdAt: {
+        type: sequelize_1.DataTypes.DATE,
+        allowNull: false,
+    },
 }, {
     sequelize: dbConfig_1.default,
     modelName: 'Reservation',
+    timestamps: true, // Asegúrate de que los timestamps estén habilitados
 });
 exports.default = Reservation;

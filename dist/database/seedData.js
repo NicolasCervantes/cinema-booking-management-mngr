@@ -17,6 +17,7 @@ const movieModel_1 = __importDefault(require("../models/movieModel"));
 const theaterModel_1 = __importDefault(require("../models/theaterModel"));
 const seatModel_1 = __importDefault(require("../models/seatModel"));
 const showtimeModel_1 = __importDefault(require("../models/showtimeModel"));
+const reservationModel_1 = __importDefault(require("../models/reservationModel"));
 const seedMovies = [
     { title: 'Inception', description: 'A mind-bending thriller', duration: 148 },
     { title: 'The Dark Knight', description: 'A superhero film', duration: 152 },
@@ -36,6 +37,11 @@ const seedShowtimes = [
     { movieId: 2, theaterId: 1, startTime: new Date() },
     { movieId: 2, theaterId: 2, startTime: new Date() },
 ];
+const seedReservations = [
+    { name: 'John Doe', email: 'john.doe@example.com', showtimeId: 1, seatId: 1 },
+    { name: 'Jane Smith', email: 'jane.smith@example.com', showtimeId: 1, seatId: 2 },
+    { name: 'Alice Johnson', email: 'alice.johnson@example.com', showtimeId: 2, seatId: 3 },
+];
 const seedDatabase = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield dbConfig_1.default.sync({ force: true });
@@ -44,7 +50,8 @@ const seedDatabase = () => __awaiter(void 0, void 0, void 0, function* () {
         for (const theater of theaters) {
             yield seatModel_1.default.bulkCreate(seedSeats(theater.id));
         }
-        yield showtimeModel_1.default.bulkCreate(seedShowtimes);
+        const showtimes = yield showtimeModel_1.default.bulkCreate(seedShowtimes);
+        yield reservationModel_1.default.bulkCreate(seedReservations);
         console.log('Database seeded!');
     }
     catch (err) {

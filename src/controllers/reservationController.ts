@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import Reservation from '../models/reservationModel';
 import Seat from '../models/seatModel';
+import Showtime from '../models/showtimeModel';
+import Movie from '../models/movieModel';
 import { ses } from '../config/awsConfig';
 
 const router = Router();

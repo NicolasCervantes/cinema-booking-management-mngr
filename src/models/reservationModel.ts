@@ -9,6 +9,7 @@ class Reservation extends Model {
   public email!: string;
   public showtimeId!: number;
   public seatId!: number;
+  public createdAt!: Date; // Asegúrate de que el campo createdAt esté definido
 }
 
 Reservation.init({
@@ -39,9 +40,14 @@ Reservation.init({
       key: 'id',
     },
   },
+  createdAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+  },
 }, {
   sequelize,
   modelName: 'Reservation',
+  timestamps: true, // Asegúrate de que los timestamps estén habilitados
 });
 
 export default Reservation;

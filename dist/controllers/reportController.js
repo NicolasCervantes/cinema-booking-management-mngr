@@ -13,37 +13,35 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const theaterModel_1 = __importDefault(require("../models/theaterModel"));
-const showtimeModel_1 = __importDefault(require("../models/showtimeModel"));
+const reservationModel_1 = __importDefault(require("../models/reservationModel"));
+const seatModel_1 = __importDefault(require("../models/seatModel"));
 const router = (0, express_1.Router)();
-router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+// Endpoint para obtener el reporte de reservas por showtime
+router.get('/by-showtime/:showtimeId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const theaters = yield theaterModel_1.default.findAll();
-        res.json(theaters);
-    }
-    catch (error) {
-        console.error('Error fetching theaters:', error);
-        res.status(500).json({ error: 'Failed to fetch theaters' });
-    }
-}));
-// Nuevo endpoint para obtener los teatros por película
-router.get('/by-movie/:movieId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const { movieId } = req.params;
-        const theaters = yield theaterModel_1.default.findAll({
+        const { showtimeId } = req.params;
+        const report = yield reservationModel_1.default.findAll({
+            where: { showtimeId },
             include: [
                 {
-                    model: showtimeModel_1.default,
-                    where: { movieId },
-                    attributes: [],
+                    model: seatModel_1.default,
+                    attributes: ['number'],
                 },
             ],
+            attributes: ['id', 'name', 'email', 'createdAt', 'seatId'],
         });
-        res.json(theaters);
+        const reportData = report.map(reservation => ({
+            reservationId: reservation.id,
+            name: reservation.name,
+            email: reservation.email,
+            createdAt: reservation.createdAt,
+            seatNumber: reservation.seatId,
+        }));
+        res.json(reportData);
     }
     catch (error) {
-        console.error('Error fetching theaters by movie:', error);
-        res.status(500).json({ error: 'Failed to fetch theaters by movie' });
+        console.error('Error generating report:', error);
+        res.status(500).json({ error: 'Failed to generate report' });
     }
 }));
 exports.default = router;
